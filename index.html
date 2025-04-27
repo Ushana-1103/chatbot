@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthBot - Your Medical AI Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <h1>HealthBot</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active">
+                        <i class="fas fa-comment-medical"></i>
+                        <span>Chat</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-thermometer-half"></i>
+                        <span>Symptoms</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-pills"></i>
+                        <span>Drugs</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-ambulance"></i>
+                        <span>Emergency Help</span>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-area">
+            <div class="chat-header">
+                <div class="ai-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h2>HealthBot Assistant</h2>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        <p>Hello! I'm HealthBot, your medical AI assistant. How can I help you today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Type your message here...">
+                <button id="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
