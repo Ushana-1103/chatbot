@@ -1,7 +1,7 @@
-# HealthBot - AI Health Assistant Application Report
+# Baymax - AI Health Assistant Application Report
 
 ## Project Overview
-HealthBot is an AI-powered health assistant application that provides medical information and guidance to users. The application uses a rule-based approach to understand user queries and provide relevant health-related information.
+Baymax is an AI-powered health assistant application that provides medical information and guidance to users. The application uses a rule-based approach to understand user queries and provide relevant responses.
 
 ## Technical Architecture
 
@@ -139,7 +139,7 @@ knowledge_base = {
    - Mobile app version
 
 ## Conclusion
-HealthBot provides a user-friendly interface for accessing medical information. The application combines modern web technologies with a comprehensive medical knowledge base to deliver helpful health-related information to users. While not a substitute for professional medical advice, it serves as a valuable resource for general health information and guidance.
+Baymax provides a user-friendly interface for accessing medical information. The application combines modern web technologies with a comprehensive medical knowledge base to deliver helpful health-related advice. While not a substitute for professional medical advice, it serves as a valuable resource for general health information and guidance.
 
 ## Appendix
 

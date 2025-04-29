@@ -1,4 +1,4 @@
-# HealthBot Knowledge Base
+# Baymax Knowledge Base
 # This file contains the health-related information and responses for the chatbot
 
 # Dictionary to store health information

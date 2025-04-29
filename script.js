@@ -12,6 +12,20 @@ document.addEventListener('DOMContentLoaded', () => {
         contentDiv.className = 'message-content';
         contentDiv.innerHTML = `<p>${message}</p>`;
         
+        if (!isUser) {
+            const feedbackButtons = document.createElement('div');
+            feedbackButtons.className = 'feedback-buttons';
+            feedbackButtons.innerHTML = `
+                <button class="feedback-btn helpful" data-feedback="helpful">
+                    <i class="fas fa-thumbs-up"></i> Helpful
+                </button>
+                <button class="feedback-btn not-helpful" data-feedback="not-helpful">
+                    <i class="fas fa-thumbs-down"></i> Not Helpful
+                </button>
+            `;
+            contentDiv.appendChild(feedbackButtons);
+        }
+        
         messageDiv.appendChild(contentDiv);
         chatMessages.appendChild(messageDiv);
         
@@ -24,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const lowerMessage = userMessage.toLowerCase();
         
         if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-            return "Hello! I'm HealthBot, your medical AI assistant. How can I help you today?";
+            return "Hello! I'm Baymax, your medical AI assistant. How can I help you today?";
         } else if (lowerMessage.includes('symptom')) {
             return "I can help you understand your symptoms. Could you please describe what you're experiencing in more detail?";
         } else if (lowerMessage.includes('pain')) {
@@ -51,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show typing indicator
             const typingIndicator = document.createElement('div');
             typingIndicator.className = 'message bot-message';
-            typingIndicator.innerHTML = '<div class="message-content"><p>HealthBot is typing...</p></div>';
+            typingIndicator.innerHTML = '<div class="message-content"><p>Baymax is typing...</p></div>';
             chatMessages.appendChild(typingIndicator);
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -65,6 +79,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 addMessage(response);
             }, 1000);
         }
+    }
+
+    // Function to handle feedback
+    function handleFeedback(button, messageId) {
+        const feedback = button.dataset.feedback;
+        const messageContent = button.closest('.message-content');
+        
+        // Disable all feedback buttons in this message
+        const feedbackButtons = messageContent.querySelectorAll('.feedback-btn');
+        feedbackButtons.forEach(btn => {
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+        });
+        
+        // Highlight the selected feedback
+        button.style.opacity = '1';
+        button.style.transform = 'scale(1.1)';
+        
+        // Send feedback to server
+        fetch('/api/feedback', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                messageId: messageId,
+                feedback: feedback,
+                message: messageContent.querySelector('p').textContent
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Feedback submitted:', data);
+        })
+        .catch(error => {
+            console.error('Error submitting feedback:', error);
+        });
     }
 
     // Event listeners
@@ -83,5 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
             navItems.forEach(navItem => navItem.classList.remove('active'));
             item.classList.add('active');
         });
+    });
+
+    // Add event listener for feedback buttons
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.feedback-btn')) {
+            const button = e.target.closest('.feedback-btn');
+            const messageId = Date.now(); // Generate a unique ID for the message
+            handleFeedback(button, messageId);
+        }
     });
 }); 

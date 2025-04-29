@@ -1,4 +1,4 @@
-# HealthBot
+# Baymax
 
 A Flask-based chatbot that provides health-related information and advice. The chatbot can answer questions about various health conditions, symptoms, and provide general health tips.
 
@@ -21,8 +21,8 @@ A Flask-based chatbot that provides health-related information and advice. The c
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/healthbot.git
-cd healthbot
+git clone https://github.com/yourusername/baymax.git
+cd baymax
 ```
 
 2. Install the required packages:

@@ -243,4 +243,53 @@ input[type="text"]:focus {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #357abd;
+}
+
+.message-content {
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+.feedback-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+
+.feedback-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+}
+
+.feedback-btn.helpful {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.feedback-btn.not-helpful {
+    background-color: #f44336;
+    color: white;
+}
+
+.feedback-btn:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.feedback-btn:active {
+    transform: scale(0.95);
+}
+
+.feedback-btn i {
+    font-size: 14px;
 } 

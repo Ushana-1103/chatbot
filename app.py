@@ -3,6 +3,9 @@ from flask_cors import CORS
 import logging
 from knowledge_base import get_health_info_natural, get_health_info, format_health_info, get_example_questions, get_symptom_management, get_related_symptoms
 import random
+import json
+import os
+from datetime import datetime
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -250,6 +253,7 @@ example_questions_by_category = {
         "How can I control diabetes?"
     ],
     'symptoms': [
+        "I feel weak and nauseous?",
         "I feel weak, what should I do?",
         "I'm feeling nauseous, help!",
         "I have a headache, what can I do?",
@@ -308,6 +312,21 @@ def chatbot_response(user_input):
         # Convert input to lowercase and strip whitespace
         user_input = user_input.lower().strip()
         
+        # Check for general health queries
+        general_health_keywords = ['general health', 'health tips', 'healthy lifestyle', 'stay healthy', 'healthy living', 'wellness tips']
+        if any(keyword in user_input for keyword in general_health_keywords):
+            general_health_info = get_health_info('general_health')
+            if general_health_info:
+                response = "Here are some general health tips to help you maintain a healthy lifestyle:\n\n"
+                response += f"{general_health_info['description']}\n\n"
+                response += "Key Health Tips:\n"
+                for tip in general_health_info['tips']:
+                    response += f"• {tip}\n"
+                response += "\nWarning Signs to Watch For:\n"
+                for sign in general_health_info['warning_signs']:
+                    response += f"• {sign}\n"
+                return response
+
         # Check for common health-related phrases
         common_phrases = {
             'hello': 'Hello! How can I help you with your health questions today?',
@@ -377,6 +396,21 @@ def chatbot_response(user_input):
         print(f"Error in chatbot_response: {str(e)}")
         return "I'm sorry, I encountered an error while processing your request. Please try rephrasing your question or ask about a different health topic."
 
+# Feedback storage
+FEEDBACK_FILE = 'feedback.json'
+
+def load_feedback():
+    if os.path.exists(FEEDBACK_FILE):
+        with open(FEEDBACK_FILE, 'r') as f:
+            return json.load(f)
+    return []
+
+def save_feedback(feedback_data):
+    feedback_list = load_feedback()
+    feedback_list.append(feedback_data)
+    with open(FEEDBACK_FILE, 'w') as f:
+        json.dump(feedback_list, f, indent=4)
+
 @app.route('/')
 def index():
     logger.debug("Received request for index page")
@@ -395,8 +429,25 @@ def chat():
     response = chatbot_response(user_message)
     return jsonify({'response': response})
 
+@app.route('/api/feedback', methods=['POST'])
+def submit_feedback():
+    try:
+        data = request.get_json()
+        feedback_data = {
+            'message_id': data.get('messageId'),
+            'feedback': data.get('feedback'),
+            'message': data.get('message'),
+            'timestamp': datetime.now().isoformat()
+        }
+        
+        save_feedback(feedback_data)
+        return jsonify({'status': 'success', 'message': 'Feedback received'})
+    except Exception as e:
+        logger.error(f"Error processing feedback: {str(e)}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
 if __name__ == '__main__':
-    print("Starting HealthBot server...")
+    print("Starting Baymax server...")
     print("Server will be available at:")
     print("http://localhost:8080")
     print("http://127.0.0.1:8080")
